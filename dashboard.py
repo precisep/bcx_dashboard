@@ -1,6 +1,8 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import numpy as np
+import matplotlib.pyplot  as plt
 
 def dashboard(data):
     # Convert TCV column to numeric
@@ -12,7 +14,7 @@ def dashboard(data):
 
     # Create a section for toggling filtered data
     st.sidebar.title("View Options")
-    show_filtered_data = st.sidebar.checkbox("Show Filtered Data", value=False)
+    show_filtered_data = st.sidebar.checkbox("Filtering Options", value=False)
 
     if show_filtered_data:
         visualize_filtered_data(data)
@@ -71,49 +73,92 @@ def visualize_data(data):
 
         # Streamlit layout
     st.write("## Bus Unit Wise")
-    kpi_col7, kpi_col8 = st.columns(2)
-    with kpi_col7:
-        # Display Business Unit pie chart
-        range_counts = data['Bus_Unit'].value_counts()
-        fig_bus_unit_pie = px.pie(values=range_counts.values, names=range_counts.index, title='Bus Unit Wise', hole=0.7,
-                                color_discrete_sequence=px.colors.qualitative.Set2)
-        fig_bus_unit_pie.update_traces(textinfo='percent+label', sort=False)
-        st.plotly_chart(fig_bus_unit_pie)
 
-    with kpi_col8:
-        # Display Business Unit TCV trends
-        fig_bar = px.bar(data_frame=data.sort_values(by='TCV', ascending=False), y='Bus_Unit', x='TCV', orientation='h', title='Business Unit Trends')
-        st.plotly_chart(fig_bar)
+   
+    data = data.sort_values(by='TCV', ascending=False)
+    # Display Business Unit pie chart
+    range_counts = data['Bus_Unit'].value_counts()
+    fig_bus_unit_pie = px.pie(
+        values=range_counts.values,
+        names=range_counts.index,
+        title='Bus Unit Wise',
+        hole=0.7,
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+    fig_bus_unit_pie.update_traces(textinfo='percent+label', sort=False)
+    # Define the chart height
+    st.plotly_chart(fig_bus_unit_pie, use_container_width=True)
+
+
+    # Display Business Unit TCV trends
+    fig_bar = px.bar(
+        data_frame=data.sort_values(by='TCV', ascending=False),
+        y='Bus_Unit',
+        x='TCV',
+        orientation='h',
+        title='Business Unit Trends'
+    )
+    # Define the chart height
+    st.plotly_chart(fig_bar, use_container_width=True)
 
     st.write("## GTM1 Wise")
-    kpi_col9, kpi_col10 = st.columns(2)
-    with kpi_col9:
-        # Display GTM1 pie chart
-        range_counts = data['GTM1'].value_counts()
-        fig_gtm1_pie = px.pie(values=range_counts.values, names=range_counts.index, title='GTM1 Wise', hole=0.7,
-                            color_discrete_sequence=px.colors.qualitative.Set2)
-        fig_gtm1_pie.update_traces(textinfo='percent+label', sort=False)
-        st.plotly_chart(fig_gtm1_pie)
 
-    with kpi_col10:
-        # Display GTM1 TCV trends
-        fig_bar_gtm1 = px.bar(data_frame=data.sort_values(by='TCV', ascending=False), y='GTM1', x='TCV', orientation='h', title='GTM1 Trends')
-        st.plotly_chart(fig_bar_gtm1)
+    
+    # Display GTM1 pie chart
+    range_counts = data['GTM1'].value_counts()
+    fig_gtm1_pie = px.pie(
+        values=range_counts.values,
+        names=range_counts.index,
+        title='GTM1 Wise',
+        hole=0.7,
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+    fig_gtm1_pie.update_traces(textinfo='percent+label', sort=False)
+    # Define the chart height
+    st.plotly_chart(fig_gtm1_pie, use_container_width=True)
+
+    
+    # Display GTM1 TCV trends
+    fig_bar_gtm1 = px.bar(
+        data_frame=data.sort_values(by='TCV', ascending=False),
+        y='GTM1',
+        x='TCV',
+        orientation='h',
+        title='GTM1 Trends'
+    )
+    # Define the chart height
+    st.plotly_chart(fig_bar_gtm1, use_container_width=True)
 
     st.write("## GTM2 Wise")
-    kpi_col11, kpi_col12 = st.columns(2)
-    with kpi_col11:
-        # Display GTM2 pie chart
-        range_counts = data['GTM2'].value_counts()
-        fig_gtm2_pie = px.pie(values=range_counts.values, names=range_counts.index, title='GTM2 Wise', hole=0.7,
-                            color_discrete_sequence=px.colors.qualitative.Set2)
-        fig_gtm2_pie.update_traces(textinfo='percent+label', sort=False)
-        st.plotly_chart(fig_gtm2_pie)
 
-    with kpi_col12:
-        # Display GTM2 TCV trends
-        fig_bar_gtm2 = px.bar(data_frame=data.sort_values(by='TCV', ascending=False), y='GTM2', x='TCV', orientation='h', title='GTM2 Trends')
-        st.plotly_chart(fig_bar_gtm2)
+
+    
+    # Display GTM2 pie chart
+    range_counts = data['GTM2'].value_counts()
+    fig_gtm2_pie = px.pie(
+        values=range_counts.values,
+        names=range_counts.index,
+        title='GTM2 Wise',
+        hole=0.7,
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+    fig_gtm2_pie.update_traces(textinfo='percent+label', sort=False)
+    # Define the chart height
+    st.plotly_chart(fig_gtm2_pie, use_container_width=True)
+
+    
+    # Display GTM2 TCV trends
+    fig_bar_gtm2 = px.bar(
+        data_frame=data.sort_values(by='TCV', ascending=False),
+        y='GTM2',
+        x='TCV',
+        orientation='h',
+        title='GTM2 Trends'
+    )
+    # Define the chart height
+    st.plotly_chart(fig_bar_gtm2, use_container_width=True)
+    #st.table(data)
+    
 
 if __name__ == '__main__':
     # Read data from the CSV or Excel file
