@@ -5,14 +5,10 @@ import numpy as np
 import matplotlib.pyplot  as plt
 
 def dashboard(data):
-    # Convert TCV column to numeric
-    
-
-    # Set page title and center it
+ 
     st.title("BCX Opportunity Dashboard")
     st.markdown('<p style="text-align: center;"> BCX Salesforce opportunities</p>', unsafe_allow_html=True)
 
-    # Create a section for toggling filtered data
     st.sidebar.title("View Options")
     show_filtered_data = st.sidebar.checkbox("Filtering Options", value=False)
 
@@ -22,14 +18,15 @@ def dashboard(data):
         visualize_original_data(data)
 
 def visualize_filtered_data(data):
-    # Sidebar filters
+
     st.sidebar.title("Filters")
     selected_bus_unit = st.sidebar.selectbox("Select Business Unit", ['All'] + list(data['Bus_Unit'].unique()))
     selected_gtm1 = st.sidebar.multiselect("Select GTM1", ['All'] + list(data['GTM1'].unique()))
     selected_gtm2 = st.sidebar.multiselect("Select GTM2", ['All'] + list(data['GTM2'].unique()))
     selected_range = st.sidebar.multiselect("Select Range", ['All'] + list(data['Range'].unique()))
+    selected_account_names = st.sidebar.selectbox("Select Account Name", ['All'] + list(data['Account_Name'].unique()))
 
-    # Apply filters
+
     filtered_data = data.copy()
     if selected_bus_unit != 'All':
         filtered_data = filtered_data[filtered_data['Bus_Unit'] == selected_bus_unit]
@@ -39,6 +36,8 @@ def visualize_filtered_data(data):
         filtered_data = filtered_data[filtered_data['GTM2'].isin(selected_gtm2)]
     if 'All' not in selected_range:
         filtered_data = filtered_data[filtered_data['Range'].isin(selected_range)]
+    if 'All' not in selected_account_names:
+        filtered_data = filtered_data[filtered_data['Range'] == selected_account_names]
 
     visualize_data(filtered_data)
 
@@ -46,7 +45,7 @@ def visualize_original_data(data):
     visualize_data(data)
 
 def visualize_data(data):
-    # Calculate KPIs based on data
+
     num_deal_won = data[data['Range'] == 'Won'].shape[0]
     num_deal_lost = data[data['Range'] == 'Lost'].shape[0]
     data['TCV'] = pd.to_numeric(data['TCV'], errors='coerce')
@@ -54,7 +53,6 @@ def visualize_data(data):
     total_tcv_lost = data[data['Range'] == 'Lost']['TCV'].sum() / 1000000000
     total_tcv = data['TCV'].sum() / 1000000000
 
-    # Display KPIs layout
     kpi_col1, kpi_col2, kpi_col3 = st.columns(3)
     with kpi_col1:
         st.metric(label='Total TCV (Billion ZAR)', value=f'ZAR {total_tcv:.2f} B')
@@ -71,12 +69,11 @@ def visualize_data(data):
     with kpi_col6:
         st.metric(label='Number of Deals Lost', value=num_deal_lost, delta_color="inverse")
 
-        # Streamlit layout
     st.write("## Bus Unit Wise")
 
    
     data = data.sort_values(by='TCV', ascending=False)
-    # Display Business Unit pie chart
+
     range_counts = data['Bus_Unit'].value_counts()
     fig_bus_unit_pie = px.pie(
         values=range_counts.values,
@@ -86,11 +83,9 @@ def visualize_data(data):
         color_discrete_sequence=px.colors.qualitative.Set2
     )
     fig_bus_unit_pie.update_traces(textinfo='percent+label', sort=False)
-    # Define the chart height
+
     st.plotly_chart(fig_bus_unit_pie, use_container_width=True)
 
-
-    # Display Business Unit TCV trends
     fig_bar = px.bar(
         data_frame=data.sort_values(by='TCV', ascending=False),
         y='Bus_Unit',
@@ -98,13 +93,11 @@ def visualize_data(data):
         orientation='h',
         title='Business Unit Trends'
     )
-    # Define the chart height
+
     st.plotly_chart(fig_bar, use_container_width=True)
 
     st.write("## GTM1 Wise")
 
-    
-    # Display GTM1 pie chart
     range_counts = data['GTM1'].value_counts()
     fig_gtm1_pie = px.pie(
         values=range_counts.values,
@@ -114,11 +107,9 @@ def visualize_data(data):
         color_discrete_sequence=px.colors.qualitative.Set2
     )
     fig_gtm1_pie.update_traces(textinfo='percent+label', sort=False)
-    # Define the chart height
+
     st.plotly_chart(fig_gtm1_pie, use_container_width=True)
 
-    
-    # Display GTM1 TCV trends
     fig_bar_gtm1 = px.bar(
         data_frame=data.sort_values(by='TCV', ascending=False),
         y='GTM1',
@@ -126,14 +117,12 @@ def visualize_data(data):
         orientation='h',
         title='GTM1 Trends'
     )
-    # Define the chart height
+
     st.plotly_chart(fig_bar_gtm1, use_container_width=True)
 
     st.write("## GTM2 Wise")
 
 
-    
-    # Display GTM2 pie chart
     range_counts = data['GTM2'].value_counts()
     fig_gtm2_pie = px.pie(
         values=range_counts.values,
@@ -143,11 +132,9 @@ def visualize_data(data):
         color_discrete_sequence=px.colors.qualitative.Set2
     )
     fig_gtm2_pie.update_traces(textinfo='percent+label', sort=False)
-    # Define the chart height
+
     st.plotly_chart(fig_gtm2_pie, use_container_width=True)
 
-    
-    # Display GTM2 TCV trends
     fig_bar_gtm2 = px.bar(
         data_frame=data.sort_values(by='TCV', ascending=False),
         y='GTM2',
@@ -155,14 +142,11 @@ def visualize_data(data):
         orientation='h',
         title='GTM2 Trends'
     )
-    # Define the chart height
+
     st.plotly_chart(fig_bar_gtm2, use_container_width=True)
-    #st.table(data)
+
     
 
 if __name__ == '__main__':
-    # Read data from the CSV or Excel file
     data = pd.read_excel('clean_data.xlsx')
-
-    # Call the dashboard function
     dashboard(data)
