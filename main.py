@@ -18,8 +18,8 @@ def main():
 
     st.sidebar.title("Filters")
     selected_bus_unit = st.sidebar.selectbox("Select Business Unit", ['All'] + list(data['Bus_Unit'].unique()))
-    selected_range = st.sidebar.selectbox("Select Range", ['All', 'Won', 'Lost'])
     selected_account_names = st.sidebar.selectbox("Select Account Name", ['All'] + list(data['Account_Name'].unique()))
+    selected_range = st.sidebar.radio("Select Range", ['All', 'Won', 'Lost'])
     
     filtered_data = apply_filters(data, selected_bus_unit, selected_range, selected_account_names)
     
