@@ -213,6 +213,7 @@ def display_gtm2(data, selected_range, selected_account_names):
 
 def display_business_unit_time_series(data, selected_range, selected_bus_unit=None):
     filtered_data = data.copy()
+    filtered_data['TCV'] = filtered_data['TCV'].astype(float)
     if selected_range != 'All':
         filtered_data = filtered_data[filtered_data['Range'] == selected_range]
     if selected_bus_unit and selected_bus_unit != 'All':
