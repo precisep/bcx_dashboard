@@ -13,7 +13,7 @@ def main():
 
     data = pd.read_excel('source/clean_data.xlsx')
 
-    st.title("BCX Opportunity Dashboard")
+    st.title("BCX Opportunities Dashboard")
     st.markdown('<p style="text-align: center;"> BCX Salesforce opportunities</p>', unsafe_allow_html=True)
 
     st.sidebar.title("Filters")
