@@ -8,8 +8,8 @@ def format_currency(value):
         return f'ZAR {value / 1000000000:.2f} B'
     elif abs(value) >= 1000000:
         return f'ZAR {value / 1000000:.2f} M'
-    elif abs(value) >= 100000:
-        return f'ZAR {value / 100000:.2f} K'
+    elif abs(value) >= 1000:
+        return f'ZAR {value / 1000:.2f} K'
     else:
         return f'ZAR {value:.2f}'
 
