@@ -13,9 +13,21 @@ from visualization_module import (
 def main():
 
     data = pd.read_excel('source/clean_data.xlsx')
+    st.markdown(
+        '<div style="background-color: black; padding: 10px; color: white; text-align: center; font-size: 36px;">'
+        "BCX Opportunities Dashboard"
+        '</div>',
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        '<div style="background-color: red; padding: 10px; color: black; text-align: center; font-size: 18px;">'
+        'BCX Salesforce opportunities'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
-    st.title("BCX Opportunities Dashboard")
-    st.markdown('<p style="text-align: center;"> BCX Salesforce opportunities</p>', unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
     st.sidebar.title("Filters")
     selected_bus_unit = st.sidebar.selectbox("Select Business Unit", ['All'] + list(data['Bus_Unit'].unique()))
@@ -38,7 +50,9 @@ def main():
     display_gtm1(filtered_data, selected_range, selected_account_names)
     st.write("## GTM2 Wise")
     display_gtm2(filtered_data, selected_range, selected_account_names)
-    
+
+    relative_image_path = "source/footer.jpg"
+    st.image(relative_image_path, use_column_width=True)
 
 
 if __name__ == '__main__':

@@ -24,19 +24,19 @@ def display_kpis(data):
 
     kpi_col1, kpi_col2, kpi_col3 = st.columns(3)
     with kpi_col1:
-        st.metric(label='Total TCV', value=format_currency(total_tcv))
+        st.metric(label='**Total TCV**', value=format_currency(total_tcv))
     with kpi_col2:
-        st.metric(label='Total TCV Won', value=format_currency(total_tcv_won), delta_color="inverse")
+        st.metric(label='**Total TCV Won**', value=format_currency(total_tcv_won), delta_color="inverse")
     with kpi_col3:
-        st.metric(label='Total TCV Lost', value=format_currency(total_tcv_lost), delta_color="inverse")
+        st.metric(label='**Total TCV Lost**', value=format_currency(total_tcv_lost), delta_color="inverse")
 
     kpi_col4, kpi_col5, kpi_col6 = st.columns(3)
     with kpi_col4:
-        st.metric(label='Total Deals', value=num_deal_won + num_deal_lost, delta_color="inverse")
+        st.metric(label='**Total Deals**', value=num_deal_won + num_deal_lost, delta_color="inverse")
     with kpi_col5:
-        st.metric(label='Number of Deals Won', value=num_deal_won, delta_color="inverse")
+        st.metric(label='**Number of Deals Won**', value=num_deal_won, delta_color="inverse")
     with kpi_col6:
-        st.metric(label='Number of Deals Lost', value=num_deal_lost, delta_color="inverse")
+        st.metric(label='**Number of Deals Lost**', value=num_deal_lost, delta_color="inverse")
 
 def display_account_kpis(account_data):
     account_data['TCV'] = pd.to_numeric(account_data['TCV'], errors='coerce')
