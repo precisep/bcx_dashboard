@@ -6,7 +6,8 @@ from visualization_module import (
     display_business_unit,
     display_gtm1,
     display_gtm2,
-    display_account_kpis
+    display_account_kpis,
+    display_business_unit_time_series
 )
 
 def main():
@@ -31,10 +32,13 @@ def main():
 
     st.write("## Business Unit Wise")
     display_business_unit(filtered_data, selected_range, selected_account_names)
+    st.write("## Business Unit Wise Time Series")
+    display_business_unit_time_series(filtered_data, selected_range, selected_bus_unit)
     st.write("## GTM1 Wise")
     display_gtm1(filtered_data, selected_range, selected_account_names)
     st.write("## GTM2 Wise")
     display_gtm2(filtered_data, selected_range, selected_account_names)
+    
 
 
 if __name__ == '__main__':

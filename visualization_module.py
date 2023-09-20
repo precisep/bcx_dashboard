@@ -211,5 +211,32 @@ def display_gtm2(data, selected_range, selected_account_names):
     st.plotly_chart(fig_gtm2_bar, use_container_width=True)
 
 
+def display_business_unit_time_series(data, selected_range, selected_bus_unit=None):
+    filtered_data = data.copy()
+    if selected_range != 'All':
+        filtered_data = filtered_data[filtered_data['Range'] == selected_range]
+    if selected_bus_unit and selected_bus_unit != 'All':
+        filtered_data = filtered_data[filtered_data['Bus_Unit'] == selected_bus_unit]
+
+    grouped_data = filtered_data.groupby(['First_Schedule_Date', 'Bus_Unit'])['TCV'].sum().reset_index()
+
+    fig = px.line(grouped_data, x='First_Schedule_Date', y='TCV', color='Bus_Unit', title='Business Unit Time Series')
+    fig.update_yaxes(range=[100000, grouped_data['TCV'].max()])
+
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1, label="1Y", step="year", stepmode="backward"),
+                dict(count=3, label="3Y", step="year", stepmode="backward"),
+                dict(count=6, label="6Y", step="year", stepmode="backward"),
+                dict(step="all"),
+            ])
+        )
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+
 
 
