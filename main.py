@@ -11,7 +11,7 @@ from visualization_module import (
 
 def main():
 
-    data = pd.read_excel('clean_data.xlsx')
+    data = pd.read_excel('source/clean_data.xlsx')
 
     st.title("BCX Opportunity Dashboard")
     st.markdown('<p style="text-align: center;"> BCX Salesforce opportunities</p>', unsafe_allow_html=True)
