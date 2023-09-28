@@ -85,7 +85,7 @@ def display_business_unit(data, selected_range, selected_account_names):
             orientation='h',
             title='Business Unit Trends'
         )
-
+        fig_bar.update_layout(barmode='stack', yaxis={'categoryorder':'total ascending'})
         st.plotly_chart(fig_bus_unit_pie, use_container_width=True)
         st.plotly_chart(fig_bar, use_container_width=True)
     else:
@@ -109,7 +109,7 @@ def display_business_unit(data, selected_range, selected_account_names):
             orientation='h',
             title='Business Unit Trends'
         )
-
+        fig_bar.update_layout(barmode='stack', yaxis={'categoryorder':'total ascending'})
         
         st.plotly_chart(fig_bus_unit_pie, use_container_width=True)
         st.plotly_chart(fig_bar, use_container_width=True)
@@ -129,13 +129,14 @@ def display_gtm1(data, selected_range, selected_account_names):
                 name=status,
                 marker_color=color
             ))
-
+        fig_gtm1_bar.update_layout(barmode='stack', yaxis={'categoryorder':'total ascending'})
         fig_gtm1_bar.update_layout(
             title='GTM1 Trends (Combined TCV)',
             xaxis_title='Total Contract Value',
             yaxis_title='GTM1',
             barmode='stack'
         )
+        
     else:
         filtered_data = data[data['Range'] == selected_range]
 
@@ -152,14 +153,14 @@ def display_gtm1(data, selected_range, selected_account_names):
                 name=status,
                 marker_color=color
             ))
-
+        fig_gtm1_bar.update_layout(barmode='stack', yaxis={'categoryorder':'total ascending'})
         fig_gtm1_bar.update_layout(
             title=f'GTM1 Trends ({selected_range} Only)',
             xaxis_title='Total Contract Value',
             yaxis_title='GTM1',
             barmode='stack'
         )
-
+    
     st.plotly_chart(fig_gtm1_bar, use_container_width=True)
 
 def display_gtm2(data, selected_range, selected_account_names):
@@ -177,13 +178,14 @@ def display_gtm2(data, selected_range, selected_account_names):
                 name=status,
                 marker_color=color
             ))
-
+        fig_gtm2_bar.update_layout(barmode='stack', yaxis={'categoryorder':'total ascending'})
         fig_gtm2_bar.update_layout(
             title='GTM2 Trends (Combined TCV)',
             xaxis_title='Total Contract Value',
             yaxis_title='GTM2',
             barmode='stack'
         )
+        
     else:
         filtered_data = data[data['Range'] == selected_range]
 
@@ -200,14 +202,14 @@ def display_gtm2(data, selected_range, selected_account_names):
                 name=status,
                 marker_color=color
             ))
-
+        fig_gtm2_bar.update_layout(barmode='stack', yaxis={'categoryorder':'total ascending'})
         fig_gtm2_bar.update_layout(
             title=f'GTM2 Trends ({selected_range} Only)',
             xaxis_title='Total Contract Value',
             yaxis_title='GTM2',
             barmode='stack'
         )
-
+    
     st.plotly_chart(fig_gtm2_bar, use_container_width=True)
 
 
@@ -223,7 +225,7 @@ def display_business_unit_time_series(data, selected_range, selected_bus_unit=No
 
     fig = px.line(grouped_data, x='First_Schedule_Date', y='TCV', color='Bus_Unit', title='Business Unit Time Series')
     fig.update_yaxes(range=[100000, grouped_data['TCV'].max()])
-
+    fig.update_layout(barmode='stack', yaxis={'categoryorder':'total ascending'})
     fig.update_xaxes(
         rangeslider_visible=True,
         rangeselector=dict(
